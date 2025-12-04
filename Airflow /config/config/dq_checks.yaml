@@ -1,0 +1,15 @@
+checks:
+  - name: sales_rowcount_positive
+    table: "{staging_dataset}.sales"
+    query: "SELECT COUNT(*) AS cnt FROM `{project_id}.{staging_dataset}.sales`"
+    condition: "cnt > 0"
+
+  - name: customers_primary_key_not_null
+    table: "{staging_dataset}.customers"
+    query: "SELECT COUNT(*) AS cnt FROM `{project_id}.{staging_dataset}.customers` WHERE customer_id IS NULL"
+    condition: "cnt = 0"
+
+  - name: orders_primary_key_not_null
+    table: "{staging_dataset}.orders"
+    query: "SELECT COUNT(*) AS cnt FROM `{project_id}.{staging_dataset}.orders` WHERE order_id IS NULL"
+    condition: "cnt = 0"
