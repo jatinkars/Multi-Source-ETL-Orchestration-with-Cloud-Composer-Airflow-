@@ -1,0 +1,71 @@
+Upload DAG and code
+
+Copy dags/multi_source_etl_dag.py to your Composer environment’s dags/ folder.
+
+Copy data_pipeline/ and config/ into the environment’s dags/ or plugins/ folder (depending on your layout).
+
+Install Python Dependencies
+
+In your Composer environment, set requirements.txt to include:
+
+apache-airflow[gcp]==2.9.1
+google-cloud-bigquery>=3.0.0
+google-cloud-storage>=2.0.0
+PyYAML>=6.0
+requests>=2.31.0
+SQLAlchemy>=2.0.0
+pymysql>=1.1.0
+
+
+Configure Airflow Connections
+
+google_cloud_default – GCP connection used by GCP operators
+
+cloudsql_default – Cloud SQL connection (host, username, password, database)
+
+api_customers – HTTP connection (host for your API, optional auth)
+
+slack_default or SMTP connection for alerts (optional)
+
+Configure Airflow Variables
+
+In the Airflow UI → Admin → Variables:
+
+PIPELINE_CONFIG_PATH – default config/pipeline_config.yaml
+
+DQ_CONFIG_PATH – default config/dq_checks.yaml
+
+INCREMENTAL_STATE_TABLE – e.g. raw.etl_state
+
+Trigger the DAG
+
+The DAG is scheduled daily by default at 02:00 UTC.
+
+You can also trigger it manually from the Airflow UI for testing.
+
+Local Development
+
+While this project is designed for Cloud Composer, the Python modules are written to be locally testable.
+
+You can:
+
+python -m venv venv
+source venv/bin/activate      # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+
+
+Then run unit tests or individual functions (e.g. extractors) using your local Python environment and a service account key for GCP access (not included in this repo).
+
+Extending the Project
+
+Ideas to extend this project:
+
+Replace BigQuery SQL transformations with a Dataflow job, triggered from the DAG
+
+Add backfill support (parameterised date ranges)
+
+Add schema validation using Great Expectations
+
+Add CI/CD workflow (GitHub Actions) to lint DAGs and validate SQL
+
+Add Terraform scripts to provision BigQuery datasets and GCS buckets
