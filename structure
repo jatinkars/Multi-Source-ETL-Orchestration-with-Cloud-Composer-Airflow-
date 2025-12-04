@@ -1,0 +1,27 @@
+multi-source-etl-orchestration/
+├─ README.md
+├─ requirements.txt
+├─ config/
+│  ├─ pipeline_config.yaml
+│  └─ dq_checks.yaml
+├─ dags/
+│  └─ multi_source_etl_dag.py
+├─ data_pipeline/
+│  ├─ __init__.py
+│  ├─ extract/
+│  │  ├─ __init__.py
+│  │  ├─ csv_extractor.py
+│  │  ├─ api_extractor.py
+│  │  └─ cloudsql_extractor.py
+│  ├─ load/
+│  │  ├─ __init__.py
+│  │  └─ bq_loader.py
+│  ├─ transform/
+│  │  ├─ __init__.py
+│  │  └─ bq_transform.py
+│  └─ dq/
+│     ├─ __init__.py
+│     └─ dq_operators.py
+└─ sql/
+   ├─ create_staging_tables.sql
+   └─ build_aggregated_views.sql
