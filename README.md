@@ -70,13 +70,10 @@ You will need:
 ---
 
 ## Configuration
-
-Configuration lives in `config/pipeline_config.yaml` and `config/dq_checks.yaml`.
-
 Example `pipeline_config.yaml`:
 
 ```yaml
-project_id: your-gcp-project-id
+project_id: my-gcp-project-id
 location: us-central1
 
 gcs:
