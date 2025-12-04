@@ -1,0 +1,35 @@
+project_id: your-gcp-project-id
+location: us-central1
+
+gcs:
+  landing_bucket: your-etl-landing-bucket
+
+bigquery:
+  raw_dataset: raw
+  staging_dataset: staging
+  analytics_dataset: analytics
+
+sources:
+  csv_sales:
+    type: csv
+    gcs_prefix: sales
+    file_pattern: "sales_{{ ds }}.csv"
+    target_table: raw.sales
+    incremental_column: ingestion_ts  # if you want
+
+  api_customers:
+    type: api
+    conn_id: api_customers
+    endpoint: "/customers"
+    target_table: raw.customers
+    incremental_column: updated_at
+
+  cloudsql_orders:
+    type: cloudsql
+    cloudsql_conn_id: cloudsql_default
+    query_template: |
+      SELECT *
+      FROM orders
+      WHERE updated_at > '{{ last_loaded_ts }}'
+    target_table: raw.orders
+    incremental_column: updated_at
